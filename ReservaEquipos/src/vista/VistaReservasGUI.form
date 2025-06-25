@@ -49,6 +49,8 @@
                       <Component id="Jtf_ConsultarReservas" min="-2" pref="96" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btn_ConsultarReservas" min="-2" pref="151" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="btn_ListarReservas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -84,6 +86,7 @@
                   <Component id="jbtn_agregar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="Jtf_ConsultarReservas" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btn_ConsultarReservas" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_ListarReservas" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="295" max="-2" attributes="0"/>
@@ -157,6 +160,14 @@
     <Component class="javax.swing.JButton" name="btn_ConsultarReservas">
       <Properties>
         <Property name="text" type="java.lang.String" value="Consultar Reservas"/>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_ListarReservas">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Listar Reservas"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
