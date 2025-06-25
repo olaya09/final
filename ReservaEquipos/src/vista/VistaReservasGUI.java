@@ -5,6 +5,7 @@
 package vista;
 
 import modelo.Profesor;
+import modelo.Estudiante;
 import modelo.EquipoComputo;
 
 /**
@@ -57,14 +58,9 @@ public class VistaReservasGUI extends javax.swing.JFrame {
         btn_ConsultarReservas.setText("Consultar Reservas");
 
         jTable_Reservas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
+            new Object [][] {},
             new String [] {
-                "codigo", "profesor", "equipo", "recogida", "entrega"
+                "codigo", "cedula/codigo", "nombre", "apellido", "equipo", "recogida", "entrega"
             }
         ));
         jScrollPane1.setViewportView(jTable_Reservas);
@@ -159,7 +155,7 @@ public class VistaReservasGUI extends javax.swing.JFrame {
     public javax.swing.JTextField Jtf_ConsultarReservas;
     public javax.swing.JButton btn_ConsultarReservas;
     public javax.swing.JComboBox<EquipoComputo> jComb_equipoComputo;
-    public javax.swing.JComboBox<EquipoComputo> jComb_estudiantes;
+    public javax.swing.JComboBox<Estudiante> jComb_estudiantes;
     public javax.swing.JComboBox<Profesor> jComb_profesores;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
