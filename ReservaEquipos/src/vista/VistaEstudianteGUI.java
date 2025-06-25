@@ -39,6 +39,7 @@ public class VistaEstudianteGUI extends javax.swing.JFrame {
         btn_ConsultarEstudiante = new javax.swing.JButton();
         btn_ListarEstudiantes = new javax.swing.JButton();
         btn_BorrarEstudiante = new javax.swing.JButton();
+        btn_ModificarEstudiante = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,6 +89,8 @@ public class VistaEstudianteGUI extends javax.swing.JFrame {
 
         btn_BorrarEstudiante.setText("Borrar");
 
+        btn_ModificarEstudiante.setText("Modificar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -116,7 +119,8 @@ public class VistaEstudianteGUI extends javax.swing.JFrame {
                         .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btn_ConsultarEstudiante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_BorrarEstudiante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(btn_BorrarEstudiante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_ModificarEstudiante, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -146,7 +150,8 @@ public class VistaEstudianteGUI extends javax.swing.JFrame {
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_ListarEstudiantes)
-                            .addComponent(btn_BorrarEstudiante))
+                            .addComponent(btn_BorrarEstudiante)
+                            .addComponent(btn_ModificarEstudiante))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
@@ -195,6 +200,7 @@ public class VistaEstudianteGUI extends javax.swing.JFrame {
     public javax.swing.JButton btn_BorrarEstudiante;
     public javax.swing.JButton btn_ConsultarEstudiante;
     public javax.swing.JButton btn_ListarEstudiantes;
+    public javax.swing.JButton btn_ModificarEstudiante;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
