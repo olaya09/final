@@ -5,6 +5,7 @@
 package vista;
 
 import modelo.Profesor;
+import modelo.Estudiante;
 import modelo.EquipoComputo;
 
 /**
@@ -40,6 +41,7 @@ public class VistaReservasGUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         Jtf_ConsultarReservas = new javax.swing.JTextField();
         btn_ConsultarReservas = new javax.swing.JButton();
+        btn_ListarReservas = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable_Reservas = new javax.swing.JTable();
 
@@ -55,16 +57,12 @@ public class VistaReservasGUI extends javax.swing.JFrame {
         jLabel3.setText("Estudiante");
 
         btn_ConsultarReservas.setText("Consultar Reservas");
+        btn_ListarReservas.setText("Listar Reservas");
 
         jTable_Reservas.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
+            new Object [][] {},
             new String [] {
-                "codigo", "profesor", "equipo", "recogida", "entrega"
+                "codigo", "cedula/codigo", "nombre", "apellido", "equipo", "recogida", "entrega"
             }
         ));
         jScrollPane1.setViewportView(jTable_Reservas);
@@ -94,6 +92,8 @@ public class VistaReservasGUI extends javax.swing.JFrame {
                         .addComponent(Jtf_ConsultarReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btn_ConsultarReservas, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_ListarReservas)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(101, 101, 101))
             .addGroup(layout.createSequentialGroup()
@@ -120,7 +120,8 @@ public class VistaReservasGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbtn_agregar)
                     .addComponent(Jtf_ConsultarReservas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_ConsultarReservas))
+                    .addComponent(btn_ConsultarReservas)
+                    .addComponent(btn_ListarReservas))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
@@ -158,8 +159,9 @@ public class VistaReservasGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JTextField Jtf_ConsultarReservas;
     public javax.swing.JButton btn_ConsultarReservas;
+    public javax.swing.JButton btn_ListarReservas;
     public javax.swing.JComboBox<EquipoComputo> jComb_equipoComputo;
-    public javax.swing.JComboBox<EquipoComputo> jComb_estudiantes;
+    public javax.swing.JComboBox<Estudiante> jComb_estudiantes;
     public javax.swing.JComboBox<Profesor> jComb_profesores;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
