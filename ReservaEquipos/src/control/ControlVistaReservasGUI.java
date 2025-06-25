@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package control;
 
 import java.awt.event.ActionEvent;
@@ -22,169 +18,141 @@ import modelo.EstudianteDAO;
 import modelo.EquipoComputo;
 import modelo.EquipoComputoDAO;
 
-/**
- *
- * @author PROF-REC-TEC
- */
-public class ControlVistaReservasGUI implements ActionListener{
-    //Atributos
+public class ControlVistaReservasGUI implements ActionListener {
     private VistaReservasGUI vistaReservas;
-    
     private Reserva unaReserva;
     private ReservaDAO unaReservaDAO;
-    
     private ProfesorDAO unProfeDAO;
-    private EquipoComputoDAO unPcDAO;
     private EstudianteDAO unEstDAO;
-    
-    //Listas de objetos de las clases modelo
-    private List<Profesor> listadoProfesores= new ArrayList<>();
-    private List<EquipoComputo> listadoEquiposcomputo= new ArrayList<>();
+    private EquipoComputoDAO unPcDAO;
+    private List<Profesor> listadoProfesores = new ArrayList<>();
     private List<Estudiante> listadoEstudiantes = new ArrayList<>();
-    
-    
-    
-    public ControlVistaReservasGUI(){
-        
-        this.unaReserva= new Reserva();
-        this.unaReservaDAO= new ReservaDAO();
-        
-        this.unProfeDAO= new ProfesorDAO();
-        this.listadoProfesores= this.unProfeDAO.listarProfesores();
+    private List<EquipoComputo> listadoEquiposcomputo = new ArrayList<>();
 
-        this.unEstDAO = new EstudianteDAO();
-        this.listadoEstudiantes = this.unEstDAO.listarEstudiantes();
-        
-        this.unPcDAO= new EquipoComputoDAO();
-        this.listadoEquiposcomputo= this.unPcDAO.listarEquipoComputo();
-        
-        this.vistaReservas= new VistaReservasGUI();
-        
-        //Se formatean los jComboBox de la GUI
-        this.vistaReservas.jComb_profesores.removeAllItems();
-        this.vistaReservas.jComb_estudiantes.removeAllItems();
+    public ControlVistaReservasGUI() {
+        unaReserva = new Reserva();
+        unaReservaDAO = new ReservaDAO();
+        unProfeDAO = new ProfesorDAO();
+        listadoProfesores = unProfeDAO.listarProfesores();
+        unEstDAO = new EstudianteDAO();
+        listadoEstudiantes = unEstDAO.listarEstudiantes();
+        unPcDAO = new EquipoComputoDAO();
+        listadoEquiposcomputo = unPcDAO.listarEquipoComputo();
+        vistaReservas = new VistaReservasGUI();
 
-        //Se agrega el listado de Profesores al JComboBox jComb_profesores
-        for(Profesor profe : this.listadoProfesores){
-            this.vistaReservas.jComb_profesores.addItem(profe);
+        vistaReservas.jComb_profesores.removeAllItems();
+        vistaReservas.jComb_estudiantes.removeAllItems();
+        vistaReservas.jComb_equipoComputo.removeAllItems();
+
+        for (Profesor profe : listadoProfesores) {
+            vistaReservas.jComb_profesores.addItem(profe);
+        }
+        for (Estudiante est : listadoEstudiantes) {
+            vistaReservas.jComb_estudiantes.addItem(est);
+        }
+        for (EquipoComputo pc : listadoEquiposcomputo) {
+            vistaReservas.jComb_equipoComputo.addItem(pc);
         }
 
-        //Se agrega el listado de Estudiantes al JComboBox jComb_estudiantes
-        for(Estudiante est : this.listadoEstudiantes){
-            this.vistaReservas.jComb_estudiantes.addItem(est);
-        }
-        
-        this.vistaReservas.jComb_equipoComputo.removeAllItems();
-        
-        //Se agrega el listado de Equipos de Cómputo al JComboBox jComb_equipoComputo
-        for(EquipoComputo pc: this.listadoEquiposcomputo){
-            this.vistaReservas.jComb_equipoComputo.addItem(pc);
-        }
-        
-        //Se agregan los escuchas a los botones de la GUI
-        this.vistaReservas.jbtn_agregar.addActionListener(this);
-        this.vistaReservas.btn_ConsultarReservas.addActionListener(this);
-        this.vistaReservas.btn_ListarReservas.addActionListener(this);
+        vistaReservas.jComb_profesores.setSelectedIndex(-1);
+        vistaReservas.jComb_estudiantes.setSelectedIndex(-1);
 
-        //Por defecto no hay elemento seleccionado en los combos
-        this.vistaReservas.jComb_profesores.setSelectedIndex(-1);
-        this.vistaReservas.jComb_estudiantes.setSelectedIndex(-1);
+        vistaReservas.jbtn_agregar.addActionListener(this);
+        vistaReservas.btn_ConsultarReservas.addActionListener(this);
+        vistaReservas.btn_ListarReservas.addActionListener(this);
 
-        this.vistaReservas.setVisible(true);
+        listarReservasEnTabla();
+        vistaReservas.setVisible(true);
     }
-    
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        if(e.getSource() == this.vistaReservas.jbtn_agregar){
-            boolean profesorSel = this.vistaReservas.jComb_profesores.getSelectedIndex() >= 0;
-            boolean estudianteSel = this.vistaReservas.jComb_estudiantes.getSelectedIndex() >= 0;
-
-            if(profesorSel == estudianteSel){
+        if (e.getSource() == vistaReservas.jbtn_agregar) {
+            boolean profesorSel = vistaReservas.jComb_profesores.getSelectedIndex() >= 0;
+            boolean estudianteSel = vistaReservas.jComb_estudiantes.getSelectedIndex() >= 0;
+            if (profesorSel == estudianteSel) {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar solo un profesor o un estudiante");
                 return;
             }
-
             int idPersona;
-            if(estudianteSel){
-                idPersona = ((Estudiante)this.vistaReservas.jComb_estudiantes.getSelectedItem()).getCodigo();
-            }else{
-                idPersona = ((Profesor)this.vistaReservas.jComb_profesores.getSelectedItem()).getCedula();
+            if (estudianteSel) {
+                idPersona = ((Estudiante) vistaReservas.jComb_estudiantes.getSelectedItem()).getCodigo();
+            } else {
+                idPersona = ((Profesor) vistaReservas.jComb_profesores.getSelectedItem()).getCedula();
             }
-
-            this.unaReserva.setCedulaProfesor(idPersona);
-            this.unaReserva.setNoInventarioPC(((EquipoComputo) this.vistaReservas.jComb_equipoComputo.getSelectedItem()).getNumInvetario());
-
-            if(this.unaReservaDAO.insertarReserva(this.unaReserva)){
-                JOptionPane.showMessageDialog(null, "Reserva Registrada con Éxito!!!\nCódigo: " + this.unaReserva.getCodigo());
-            }else{
+            int inventario = ((EquipoComputo) vistaReservas.jComb_equipoComputo.getSelectedItem()).getNumInvetario();
+            unaReserva.setCedulaProfesor(idPersona);
+            unaReserva.setNoInventarioPC(inventario);
+            if (unaReservaDAO.insertarReserva(unaReserva)) {
+                JOptionPane.showMessageDialog(null, "Reserva Registrada con Éxito!!!\nCódigo: " + unaReserva.getCodigo());
+                listarReservasEnTabla();
+            } else {
                 JOptionPane.showMessageDialog(null, "Reserva No Registrada!!!");
             }
         }
-
-        if(e.getSource() == this.vistaReservas.btn_ConsultarReservas){
-            String cod = this.vistaReservas.Jtf_ConsultarReservas.getText().trim();
-            if(!cod.matches("\\d+")){
+        if (e.getSource() == vistaReservas.btn_ConsultarReservas) {
+            String cod = vistaReservas.Jtf_ConsultarReservas.getText().trim();
+            if (!cod.matches("\\d+")) {
                 JOptionPane.showMessageDialog(null, "Código inválido");
                 return;
             }
             int codigo = Integer.parseInt(cod);
-            Reserva r = this.unaReservaDAO.consultarReserva(codigo);
-            if(r.getCodigo()==0){
+            Reserva r = unaReservaDAO.consultarReserva(codigo);
+            if (r.getCodigo() == 0) {
                 JOptionPane.showMessageDialog(null, "Reserva no encontrada");
                 return;
             }
-            for(int i=0;i<this.listadoProfesores.size();i++){
-                if(this.listadoProfesores.get(i).getCedula() == r.getCedulaProfesor()){
-                    this.vistaReservas.jComb_profesores.setSelectedIndex(i);
-                    this.vistaReservas.jComb_estudiantes.setSelectedIndex(-1);
+            for (int i = 0; i < listadoProfesores.size(); i++) {
+                if (listadoProfesores.get(i).getCedula() == r.getCedulaProfesor()) {
+                    vistaReservas.jComb_profesores.setSelectedIndex(i);
+                    vistaReservas.jComb_estudiantes.setSelectedIndex(-1);
                     break;
                 }
             }
-            for(int i=0;i<this.listadoEstudiantes.size();i++){
-                if(this.listadoEstudiantes.get(i).getCodigo() == r.getCedulaProfesor()){
-                    this.vistaReservas.jComb_estudiantes.setSelectedIndex(i);
-                    this.vistaReservas.jComb_profesores.setSelectedIndex(-1);
+            for (int i = 0; i < listadoEstudiantes.size(); i++) {
+                if (listadoEstudiantes.get(i).getCodigo() == r.getCedulaProfesor()) {
+                    vistaReservas.jComb_estudiantes.setSelectedIndex(i);
+                    vistaReservas.jComb_profesores.setSelectedIndex(-1);
                     break;
                 }
             }
-            for(int i=0;i<this.listadoEquiposcomputo.size();i++){
-                if(this.listadoEquiposcomputo.get(i).getNumInvetario() == r.getNoInventarioPC()){
-                    this.vistaReservas.jComb_equipoComputo.setSelectedIndex(i);
+            for (int i = 0; i < listadoEquiposcomputo.size(); i++) {
+                if (listadoEquiposcomputo.get(i).getNumInvetario() == r.getNoInventarioPC()) {
+                    vistaReservas.jComb_equipoComputo.setSelectedIndex(i);
                     break;
                 }
             }
         }
-
-        if(e.getSource() == this.vistaReservas.btn_ListarReservas){
+        if (e.getSource() == vistaReservas.btn_ListarReservas) {
             listarReservasEnTabla();
         }
     }
 
-    private void listarReservasEnTabla(){
-        DefaultTableModel modelo = (DefaultTableModel) this.vistaReservas.jTable_Reservas.getModel();
+    private void listarReservasEnTabla() {
+        DefaultTableModel modelo = (DefaultTableModel) vistaReservas.jTable_Reservas.getModel();
         modelo.setRowCount(0);
-        List<Reserva> lista = this.unaReservaDAO.listarReservas();
-        for(Reserva r : lista){
-            String nombre="", apellido="", marca="";
-            Profesor p = this.unProfeDAO.consultarProfesor(r.getCedulaProfesor());
-            if(p != null && p.getCedula()!=0){
+        List<Reserva> lista = unaReservaDAO.listarReservas();
+        for (Reserva r : lista) {
+            String nombre = "", apellido = "", marca = "";
+            Profesor p = unProfeDAO.consultarProfesor(r.getCedulaProfesor());
+            if (p != null && p.getCedula() != 0) {
                 nombre = p.getNombre();
                 apellido = p.getApellido();
-            }else{
-                Estudiante es = this.unEstDAO.consultarEstudiante(r.getCedulaProfesor());
-                if(es != null && es.getCodigo()!=0){
+            } else {
+                Estudiante es = unEstDAO.consultarEstudiante(r.getCedulaProfesor());
+                if (es != null && es.getCodigo() != 0) {
                     nombre = es.getNombre();
                     apellido = es.getApellido();
                 }
             }
-            EquipoComputo pc = this.unPcDAO.consultarEquipoComputo(r.getNoInventarioPC());
-            if(pc != null){
+            EquipoComputo pc = unPcDAO.consultarEquipoComputo(r.getNoInventarioPC());
+            if (pc != null) {
                 marca = pc.getMarca();
             }
-            modelo.addRow(new Object[]{r.getCodigo(), r.getCedulaProfesor(), nombre, apellido, marca, r.getFechaRecogida(), r.getFechaEntrega()});
+            modelo.addRow(new Object[]{
+                r.getCodigo(), r.getCedulaProfesor(), nombre,
+                apellido, marca, r.getFechaRecogida(), r.getFechaEntrega()
+            });
         }
     }
-
 }
