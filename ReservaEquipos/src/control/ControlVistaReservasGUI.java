@@ -44,32 +44,51 @@ public class ControlVistaReservasGUI implements ActionListener {
         vistaReservas.jComb_estudiantes.removeAllItems();
         vistaReservas.jComb_equipoComputo.removeAllItems();
 
+        Profesor pSel = new Profesor();
+        pSel.setCedula(0);
+        pSel.setNombre("Seleccione");
+        pSel.setApellido("");
+        vistaReservas.jComb_profesores.addItem(pSel);
         for (Profesor profe : listadoProfesores) {
             vistaReservas.jComb_profesores.addItem(profe);
         }
+
+        Estudiante eSel = new Estudiante();
+        eSel.setCodigo(0);
+        eSel.setNombre("Seleccione");
+        eSel.setApellido("");
+        vistaReservas.jComb_estudiantes.addItem(eSel);
         for (Estudiante est : listadoEstudiantes) {
             vistaReservas.jComb_estudiantes.addItem(est);
         }
+
+        EquipoComputo pcSel = new EquipoComputo();
+        pcSel.setNumInvetario(0);
+        pcSel.setMarca("Seleccione");
+        vistaReservas.jComb_equipoComputo.addItem(pcSel);
         for (EquipoComputo pc : listadoEquiposcomputo) {
             vistaReservas.jComb_equipoComputo.addItem(pc);
         }
 
-        vistaReservas.jComb_profesores.setSelectedIndex(-1);
-        vistaReservas.jComb_estudiantes.setSelectedIndex(-1);
+        vistaReservas.jComb_profesores.setSelectedIndex(0);
+        vistaReservas.jComb_estudiantes.setSelectedIndex(0);
+        vistaReservas.jComb_equipoComputo.setSelectedIndex(0);
 
         vistaReservas.jbtn_agregar.addActionListener(this);
         vistaReservas.btn_ConsultarReservas.addActionListener(this);
         vistaReservas.btn_ListarReservas.addActionListener(this);
+        vistaReservas.jComb_profesores.addActionListener(this);
+        vistaReservas.jComb_estudiantes.addActionListener(this);
 
-        listarReservasEnTabla();
+        actualizarEstadoCombos();
         vistaReservas.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vistaReservas.jbtn_agregar) {
-            boolean profesorSel = vistaReservas.jComb_profesores.getSelectedIndex() >= 0;
-            boolean estudianteSel = vistaReservas.jComb_estudiantes.getSelectedIndex() >= 0;
+            boolean profesorSel = vistaReservas.jComb_profesores.getSelectedIndex() > 0;
+            boolean estudianteSel = vistaReservas.jComb_estudiantes.getSelectedIndex() > 0;
             if (profesorSel == estudianteSel) {
                 JOptionPane.showMessageDialog(null, "Debe seleccionar solo un profesor o un estudiante");
                 return;
@@ -89,6 +108,7 @@ public class ControlVistaReservasGUI implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Reserva No Registrada!!!");
             }
+            actualizarEstadoCombos();
         }
         if (e.getSource() == vistaReservas.btn_ConsultarReservas) {
             String cod = vistaReservas.Jtf_ConsultarReservas.getText().trim();
@@ -105,14 +125,14 @@ public class ControlVistaReservasGUI implements ActionListener {
             for (int i = 0; i < listadoProfesores.size(); i++) {
                 if (listadoProfesores.get(i).getCedula() == r.getCedulaProfesor()) {
                     vistaReservas.jComb_profesores.setSelectedIndex(i);
-                    vistaReservas.jComb_estudiantes.setSelectedIndex(-1);
+                    vistaReservas.jComb_estudiantes.setSelectedIndex(0);
                     break;
                 }
             }
             for (int i = 0; i < listadoEstudiantes.size(); i++) {
                 if (listadoEstudiantes.get(i).getCodigo() == r.getCedulaProfesor()) {
                     vistaReservas.jComb_estudiantes.setSelectedIndex(i);
-                    vistaReservas.jComb_profesores.setSelectedIndex(-1);
+                    vistaReservas.jComb_profesores.setSelectedIndex(0);
                     break;
                 }
             }
@@ -122,9 +142,13 @@ public class ControlVistaReservasGUI implements ActionListener {
                     break;
                 }
             }
+            actualizarEstadoCombos();
         }
         if (e.getSource() == vistaReservas.btn_ListarReservas) {
             listarReservasEnTabla();
+        }
+        if (e.getSource() == vistaReservas.jComb_profesores || e.getSource() == vistaReservas.jComb_estudiantes) {
+            actualizarEstadoCombos();
         }
     }
 
@@ -134,13 +158,16 @@ public class ControlVistaReservasGUI implements ActionListener {
         List<Reserva> lista = unaReservaDAO.listarReservas();
         for (Reserva r : lista) {
             String nombre = "", apellido = "", marca = "";
+            String cedulaProf = "", codigoEst = "";
             Profesor p = unProfeDAO.consultarProfesor(r.getCedulaProfesor());
             if (p != null && p.getCedula() != 0) {
+                cedulaProf = String.valueOf(p.getCedula());
                 nombre = p.getNombre();
                 apellido = p.getApellido();
             } else {
                 Estudiante es = unEstDAO.consultarEstudiante(r.getCedulaProfesor());
                 if (es != null && es.getCodigo() != 0) {
+                    codigoEst = String.valueOf(es.getCodigo());
                     nombre = es.getNombre();
                     apellido = es.getApellido();
                 }
@@ -150,9 +177,24 @@ public class ControlVistaReservasGUI implements ActionListener {
                 marca = pc.getMarca();
             }
             modelo.addRow(new Object[]{
-                r.getCodigo(), r.getCedulaProfesor(), nombre,
+                r.getCodigo(), cedulaProf, codigoEst, nombre,
                 apellido, marca, r.getFechaRecogida(), r.getFechaEntrega()
             });
+        }
+    }
+
+    private void actualizarEstadoCombos() {
+        boolean profSel = vistaReservas.jComb_profesores.getSelectedIndex() > 0;
+        boolean estSel = vistaReservas.jComb_estudiantes.getSelectedIndex() > 0;
+        if (profSel) {
+            vistaReservas.jComb_estudiantes.setEnabled(false);
+        } else {
+            vistaReservas.jComb_estudiantes.setEnabled(true);
+        }
+        if (estSel) {
+            vistaReservas.jComb_profesores.setEnabled(false);
+        } else {
+            vistaReservas.jComb_profesores.setEnabled(true);
         }
     }
 }

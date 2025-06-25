@@ -183,9 +183,12 @@
         <Component class="javax.swing.JTable" name="jTable_Reservas">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="4">
+              <Table columnCount="8" rowCount="4">
                 <Column editable="true" title="codigo" type="java.lang.Object"/>
-                <Column editable="true" title="profesor" type="java.lang.Object"/>
+                <Column editable="true" title="cedula profesor" type="java.lang.Object"/>
+                <Column editable="true" title="codigo estudiante" type="java.lang.Object"/>
+                <Column editable="true" title="nombre" type="java.lang.Object"/>
+                <Column editable="true" title="apellido" type="java.lang.Object"/>
                 <Column editable="true" title="equipo" type="java.lang.Object"/>
                 <Column editable="true" title="recogida" type="java.lang.Object"/>
                 <Column editable="true" title="entrega" type="java.lang.Object"/>
