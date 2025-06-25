@@ -62,7 +62,7 @@ public class VistaReservasGUI extends javax.swing.JFrame {
         jTable_Reservas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {},
             new String [] {
-                "codigo", "cedula/codigo", "nombre", "apellido", "equipo", "recogida", "entrega"
+                "codigo", "cedula profesor", "codigo estudiante", "nombre", "apellido", "equipo", "recogida", "entrega"
             }
         ));
         jScrollPane1.setViewportView(jTable_Reservas);
