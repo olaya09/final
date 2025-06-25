@@ -60,8 +60,10 @@ public class ControlVistaReservasGUI implements ActionListener {
         vistaReservas.jbtn_agregar.addActionListener(this);
         vistaReservas.btn_ConsultarReservas.addActionListener(this);
         vistaReservas.btn_ListarReservas.addActionListener(this);
+        vistaReservas.jComb_profesores.addActionListener(this);
+        vistaReservas.jComb_estudiantes.addActionListener(this);
 
-        listarReservasEnTabla();
+        actualizarEstadoCombos();
         vistaReservas.setVisible(true);
     }
 
@@ -89,6 +91,7 @@ public class ControlVistaReservasGUI implements ActionListener {
             } else {
                 JOptionPane.showMessageDialog(null, "Reserva No Registrada!!!");
             }
+            actualizarEstadoCombos();
         }
         if (e.getSource() == vistaReservas.btn_ConsultarReservas) {
             String cod = vistaReservas.Jtf_ConsultarReservas.getText().trim();
@@ -122,9 +125,13 @@ public class ControlVistaReservasGUI implements ActionListener {
                     break;
                 }
             }
+            actualizarEstadoCombos();
         }
         if (e.getSource() == vistaReservas.btn_ListarReservas) {
             listarReservasEnTabla();
+        }
+        if (e.getSource() == vistaReservas.jComb_profesores || e.getSource() == vistaReservas.jComb_estudiantes) {
+            actualizarEstadoCombos();
         }
     }
 
@@ -134,13 +141,16 @@ public class ControlVistaReservasGUI implements ActionListener {
         List<Reserva> lista = unaReservaDAO.listarReservas();
         for (Reserva r : lista) {
             String nombre = "", apellido = "", marca = "";
+            String cedulaProf = "", codigoEst = "";
             Profesor p = unProfeDAO.consultarProfesor(r.getCedulaProfesor());
             if (p != null && p.getCedula() != 0) {
+                cedulaProf = String.valueOf(p.getCedula());
                 nombre = p.getNombre();
                 apellido = p.getApellido();
             } else {
                 Estudiante es = unEstDAO.consultarEstudiante(r.getCedulaProfesor());
                 if (es != null && es.getCodigo() != 0) {
+                    codigoEst = String.valueOf(es.getCodigo());
                     nombre = es.getNombre();
                     apellido = es.getApellido();
                 }
@@ -150,9 +160,24 @@ public class ControlVistaReservasGUI implements ActionListener {
                 marca = pc.getMarca();
             }
             modelo.addRow(new Object[]{
-                r.getCodigo(), r.getCedulaProfesor(), nombre,
+                r.getCodigo(), cedulaProf, codigoEst, nombre,
                 apellido, marca, r.getFechaRecogida(), r.getFechaEntrega()
             });
+        }
+    }
+
+    private void actualizarEstadoCombos() {
+        boolean profSel = vistaReservas.jComb_profesores.getSelectedIndex() >= 0;
+        boolean estSel = vistaReservas.jComb_estudiantes.getSelectedIndex() >= 0;
+        if (profSel) {
+            vistaReservas.jComb_estudiantes.setEnabled(false);
+        } else {
+            vistaReservas.jComb_estudiantes.setEnabled(true);
+        }
+        if (estSel) {
+            vistaReservas.jComb_profesores.setEnabled(false);
+        } else {
+            vistaReservas.jComb_profesores.setEnabled(true);
         }
     }
 }
